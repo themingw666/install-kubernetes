@@ -409,37 +409,37 @@ function run_main(){
   start_services
 
   # only run this on the control plane node
-  if [[ "${CONTROL_NODE}" == "true" || "${SINGLE_NODE}" == "true" ]]; then
-    echo "Configuring control plane node..."
-    kubeadm_init
-    configure_kubeconfig
-    install_cni
-    wait_for_nodes
-    # now  test what was installed
-    test_kubernetes_version
-    install_metrics_server
-    if [[ "${SINGLE_NODE}" == "true" ]]; then
-      echo "Configuring as a single node cluster"
-      configure_as_single_node
-      test_nginx_pod
-      wait_for_pods_running
-    fi
-    echo "Install complete!"
+  # if [[ "${CONTROL_NODE}" == "true" || "${SINGLE_NODE}" == "true" ]]; then
+  #   echo "Configuring control plane node..."
+  #   kubeadm_init
+  #   configure_kubeconfig
+  #   install_cni
+  #   wait_for_nodes
+  #   # now  test what was installed
+  #   test_kubernetes_version
+  #   install_metrics_server
+  #   if [[ "${SINGLE_NODE}" == "true" ]]; then
+  #     echo "Configuring as a single node cluster"
+  #     configure_as_single_node
+  #     test_nginx_pod
+  #     wait_for_pods_running
+  #   fi
+  #   echo "Install complete!"
 
-    echo
-    echo "### Command to add a worker node ###"
-    kubeadm token create --print-join-command --ttl 0
-  else
-    # is a worker node
-    check_worker_services
-    echo "Install complete!"
-    echo
-    echo "### To add this node as a worker node ###"
-    echo "Run the below on the control plane node:"
-    echo "kubeadm token create --print-join-command --ttl 0"
-    echo "and execute the output on the worker nodes"
-    echo
-  fi
+  #   echo
+  #   echo "### Command to add a worker node ###"
+  #   kubeadm token create --print-join-command --ttl 0
+  # else
+  #   # is a worker node
+  #   check_worker_services
+  #   echo "Install complete!"
+  #   echo
+  #   echo "### To add this node as a worker node ###"
+  #   echo "Run the below on the control plane node:"
+  #   echo "kubeadm token create --print-join-command --ttl 0"
+  #   echo "and execute the output on the worker nodes"
+  #   echo
+  # fi
 }
 
 # assume it's a worker node by default
